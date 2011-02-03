@@ -1,0 +1,43 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+server {
+    listen 80;
+    server_name %(aliases)s;
+    root        /var/www/vhosts/%(name)s/_wwwroot;
+    access_log  /var/www/vhosts/%(name)s/access.log;
+    index       index.php index.html;
+    location /nginx_status {
+        stub_status on;
+        access_log   off;
+        allow 81.99.243.159;
+        allow 127.0.0.1;
+        #deny all;
+    }
+
+    location ~* \.(ico)$ {
+        access_log      off;
+        expires         30d;
+    }
+
+    location / {
+        try_files       $uri $uri/ @rewrite;
+    }
+
+    location @rewrite {
+        rewrite ^/([^?]+)?(.+)?$ /index.php?route=$1&$2;
+    }
+
+    location ~ \.php$ {
+        if (!-f $request_filename) { 
+            return      404; 
+        }
+        fastcgi_pass   127.0.0.1:9000;
+        include        fastcgi.conf;
+    }
+    
+    location ~ /\.ht {
+        deny  all;
+    }
+}

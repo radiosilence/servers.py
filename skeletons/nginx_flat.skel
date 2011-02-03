@@ -1,0 +1,19 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+server {
+    listen 80;
+    server_name %(name)s %(aliases)s;
+    root /var/www/vhosts/%(name)s;
+
+    location ~* \.(jpg|jpeg|gif|css|png|js|ico)$ {
+        access_log      off;
+        expires         30d;
+    }
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+}
