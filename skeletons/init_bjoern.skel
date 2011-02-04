@@ -17,7 +17,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC=""
 NAME=bjoern_%(name)s
-DAEMON=/opt/bjoern/bjoern
+DAEMON=%(daemon)s
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 EXEC_AS_USER=www-data
@@ -32,7 +32,7 @@ EXEC_AS_USER=www-data
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
-DAEMON_ARGS="%(name)s %(port)s"
+DAEMON_ARGS="%(path)s/%(name)s %(port)s"
 do_start()
 {
         # Return

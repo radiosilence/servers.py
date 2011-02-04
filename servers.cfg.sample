@@ -1,0 +1,16 @@
+[DEFAULT]
+
+init_path=/etc/init.d
+sites_path=/etc/nginx/sites-available
+
+apps_path=/var/www/apps
+vhosts_path=/var/www/vhosts
+
+[mysite]
+type=php
+aliases=www.mysite.com mysite.com
+
+[myflasksite]
+type=flask
+aliases=www.myflasksite.com
+port=500

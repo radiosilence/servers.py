@@ -46,6 +46,7 @@ def main():
 
     for server in servers:
         if server['type'] == 'flask':
+            server['path'] = paths['apps_dir']
             nginx_name = "flask_%s" % server['name']
 
             with open(paths['sites_dir'] % nginx_name, 'w') as f:
@@ -54,6 +55,7 @@ def main():
             f.closed
 
             init_name = "bjoern_%s" % server['name']
+            server['daemon'] = paths['wsgi_server']
             with open(paths['init_dir'] % init_name, 'w') as f:
                 f.write("".join(skels['init']) % server)
                 print "Written init script for %s." % init_name
@@ -61,6 +63,7 @@ def main():
             os.chmod(paths['init_dir'] % init_name, stat.S_IRWXU)
 
         else:
+            server['path'] = paths['vhosts_dir']
             t = server['type']
             nginx_name = '%s_%s' % (t, server['name'])
             with open(paths['sites_dir'] % nginx_name, 'w') as f:
