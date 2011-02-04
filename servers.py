@@ -35,15 +35,9 @@ def main():
         paths[k] = os.path.abspath(v)
 
     for server in servers:
-        if server['type'] == 'flask':
+        if server['type'] in ['flask']:
             server['path'] = paths['apps_dir']
-            nginx_name = "flask_%s" % server['name']
-
-            with open(paths['sites_dir'] % nginx_name, 'w') as f:
-                f.write("".join(skels['nginx_flask']) % server)
-                print "Written nginx conf for %s." % nginx_name
-            f.closed
-
+            
             init_name = "bjoern_%s" % server['name']
             server['daemon'] = paths['wsgi_server']
             with open(paths['init_dir'] % init_name, 'w') as f:
@@ -54,12 +48,13 @@ def main():
 
         else:
             server['path'] = paths['vhosts_dir']
-            t = server['type']
-            nginx_name = '%s_%s' % (t, server['name'])
-            with open(paths['sites_dir'] % nginx_name, 'w') as f:
-                f.write("".join(skels['nginx_%s' % t]) % server)
-                print "Written nginx conf for %s." % nginx_name
-            f.closed
+
+        t = server['type']
+        nginx_name = '%s_%s' % (t, server['name'])
+        with open(paths['sites_dir'] % nginx_name, 'w') as f:
+            f.write("".join(skels['nginx_%s' % t]) % server)
+            print "Written nginx conf for %s." % nginx_name
+        f.closed
 
 if __name__ == '__main__':
     main()
