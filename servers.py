@@ -44,6 +44,9 @@ def main():
         
         servers.append(server)
 
+    for k,v in paths.items():
+        paths[k] = os.path.abspath(v)
+
     for server in servers:
         if server['type'] == 'flask':
             server['path'] = paths['apps_dir']

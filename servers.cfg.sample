@@ -1,7 +1,11 @@
 [DEFAULT]
+sites_dir=/etc/nginx/sites-available/%s.conf
+init_dir=/etc/init.d/%s
 
-init_path=/etc/init.d
-sites_path=/etc/nginx/sites-available
+wsgi_server=launch_with_bjoern.py
+
+vhosts_dir=/var/www/vhosts
+apps_dir=/var/www/apps
 
 apps_path=/var/www/apps
 vhosts_path=/var/www/vhosts
