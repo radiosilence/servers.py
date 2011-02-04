@@ -4,26 +4,13 @@ import os, sys, stat
 import ConfigParser, os
 import pprint
 
-pp = pprint.PrettyPrinter(indent=4)
-
-output_nginx = '/etc/nginx/sites-available/%s.conf'
-output_init = '/etc/init.d/flask_%s'
-
-#servers = [
-#    {'port': 5000, 'app': 'flasktest', 'aliases': ''}
-#]
-
 servers = []
-
-def generator(object):
-    def generate():
-        print "hi"
 
 skels = {
     'nginx_php': open('skeletons/nginx_php.skel', 'r').readlines(),
     'nginx_flask': open('skeletons/nginx_flask.skel', 'r').readlines(),
     'nginx_flat': open('skeletons/nginx_flat.skel', 'r').readlines(),
-    'init': open('skeletons/init_bjoern.skel', 'r').readlines()
+    'init_bjoern': open('skeletons/init_bjoern.skel', 'r').readlines()
 }
 
 def main():
@@ -60,7 +47,7 @@ def main():
             init_name = "bjoern_%s" % server['name']
             server['daemon'] = paths['wsgi_server']
             with open(paths['init_dir'] % init_name, 'w') as f:
-                f.write("".join(skels['init']) % server)
+                f.write("".join(skels['init_bjoern']) % server)
                 print "Written init script for %s." % init_name
             f.closed
             os.chmod(paths['init_dir'] % init_name, stat.S_IRWXU)
