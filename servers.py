@@ -10,6 +10,7 @@ skels = {
     'nginx_php': open('skeletons/nginx_php.skel', 'r').readlines(),
     'nginx_flask': open('skeletons/nginx_flask.skel', 'r').readlines(),
     'nginx_flat': open('skeletons/nginx_flat.skel', 'r').readlines(),
+    'nginx_php_test': open('skeletons/nginx_php_test.skel', 'r').readlines(),
     'init_bjoern': open('skeletons/init_bjoern.skel', 'r').readlines()
 }
 
