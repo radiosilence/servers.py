@@ -1,0 +1,14 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+server {
+    listen 80;
+    server_name %(name)s %(aliases)s;
+
+    location / {
+        proxy_pass http://127.0.0.1:%(port)s$request_uri;
+        proxy_set_header  X-Real-IP  $remote_addr;
+    }
+
+}

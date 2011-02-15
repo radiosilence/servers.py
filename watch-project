@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo watchmedo shell-command \
+    --patterns="*.py" \
+    --recursive \
+    --command="kill -HUP `sudo cat /tmp/gunicorn_$1.pid`" \
+    /var/www/apps/$1/
