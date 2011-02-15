@@ -28,7 +28,7 @@ start()
     echo "Starting $NAME."
     export PYTHONPATH=$CONFDIR;
     cd $CONFDIR/$NAME;
-    su -s /bin/bash -c "$GUNICORN_RUN -b localhost:$PORT -n $NAME -w $WORKERS -p $PID -D -k $WORKER $APP" $USER && echo "OK" || echo "Failed";
+    su -s /bin/bash -c "$GUNICORN_RUN -b unix:/tmp/gunicorn_$NAME.sock -n $NAME -w $WORKERS -p $PID -D -k $WORKER $APP" $USER && echo "OK" || echo "Failed";
 
 }
 

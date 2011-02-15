@@ -2,13 +2,27 @@
 # BY /var/www/scripts/servers.py
 # AND WILL BE OVERWRITTEN!!!
 
+upstream app_server_%(name)s {
+        server unix:/tmp/gunicorn_%(name)s.sock fail_timeout=0;
+}
+
 server {
     listen 80;
     server_name %(name)s %(aliases)s;
+    client_max_body_size 4G;
+    keepalive_timeout 5;
+    root %(path)s/%(name)s/static;
 
     location / {
-        proxy_pass http://127.0.0.1:%(port)s$request_uri;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
         proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_redirect off;
+        proxy_buffering off;
+        
+        if (!-f $request_filename) {
+            proxy_pass http://app_server_%(name)s;
+            break;
+        }
     }
-
 }
