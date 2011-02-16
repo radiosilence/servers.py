@@ -7,7 +7,7 @@ server {
     server_name %(name)s %(aliases)s;
     root        %(path)s/%(name)s/_wwwroot;
     access_log  %(path)s/%(name)s/access.log;
-    index       index.php index.html;
+    #index       index.php index.html;
     location /nginx_status {
         stub_status on;
         access_log   off;
@@ -18,11 +18,12 @@ server {
 
     location ~* \.(ico)$ {
         access_log      off;
+        error_log      off;
         expires         30d;
     }
 
     location / {
-        try_files       $uri $uri/ @rewrite;
+        try_files       $request_uri @rewrite;
     }
 
     location @rewrite {
@@ -30,9 +31,17 @@ server {
     }
 
     location ~ \.php$ {
+        set             $memcached_key site:%(name)s:uri:$request_uri;
+        memcached_pass  127.0.0.1:11211;
+        default_type    text/html;
+        error_page      404 @fallback;
+    }
+
+    location @fallback {
         if (!-f $request_filename) { 
             return      404; 
         }
+
         fastcgi_pass   127.0.0.1:9000;
         include        fastcgi.conf;
     }
