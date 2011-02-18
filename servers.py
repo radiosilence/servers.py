@@ -16,7 +16,6 @@ def main():
     config.read('servers.cfg')
     paths = config.defaults()
     wsgi_name = paths['wsgi_server']
-    port = atoi(paths['port_start'])
 
     for section in config.sections():
         server = {
@@ -36,8 +35,6 @@ def main():
 
     for server in servers:
         if server['type'] in ['wsgi']:
-            server['port'] = port
-            port += 1
             server['path'] = paths['apps_dir']
             init_name = "%s_%s" % (wsgi_name, server['name'])
             server['daemon'] = paths['wsgi_server']

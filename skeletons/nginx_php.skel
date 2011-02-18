@@ -34,10 +34,6 @@ server {
         set             $memcached_key site:%(name)s:uri:$request_uri;
         memcached_pass  127.0.0.1:11211;
         default_type    text/html;
-        error_page      404 @fallback;
-    }
-
-    location @fallback {
         if (!-f $request_filename) { 
             return      404; 
         }
@@ -45,7 +41,6 @@ server {
         fastcgi_pass   127.0.0.1:9000;
         include        fastcgi.conf;
     }
-    
     location ~ /\.ht {
         deny  all;
     }
