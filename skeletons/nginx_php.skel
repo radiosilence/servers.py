@@ -31,16 +31,23 @@ server {
     }
 
     location ~ \.php$ {
-        set             $memcached_key site:%(name)s:uri:$request_uri;
-        memcached_pass  127.0.0.1:11211;
         default_type    text/html;
-        if (!-f $request_filename) { 
-            return      404; 
+        
+        if ($request_method = GET) {
+            set             $memcached_key site:%(name)s:uri:$request_uri;
+            memcached_pass  127.0.0.1:11211;
+            error_page      404 = @nocache;
         }
 
-        fastcgi_pass   127.0.0.1:9000;
-        include        fastcgi.conf;
+        if ($request_method != GET) {
+            fastcgi_pass   phpfcgi;
+        }
     }
+
+    location @nocache {
+        fastcgi_pass phpfcgi;
+    }
+
     location ~ /\.ht {
         deny  all;
     }
