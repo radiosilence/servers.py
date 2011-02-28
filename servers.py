@@ -8,7 +8,7 @@ import pprint
 servers = []
 skels = {}
 
-for skel in ['nginx_php', 'nginx_flat', 'nginx_php_test', 'nginx_wsgi', 'init_gunicorn']:
+for skel in ['nginx_php5', 'nginx_flat', 'nginx_php5_test', 'nginx_wsgi', 'init_gunicorn', 'nginx_php5_ssl']:
     skels[skel] = open('skeletons/%s.skel' % skel, 'r').readlines()
 
 def main():
@@ -22,7 +22,7 @@ def main():
             'name': section,
             'type': config.get(section, 'type')
         }
-        for p in ['port', 'aliases']:
+        for p in ['aliases', 'primary']:
             try:
                 server[p] = config.get(section, p)
             except ConfigParser.NoOptionError:

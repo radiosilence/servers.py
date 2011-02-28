@@ -11,7 +11,6 @@
 
 CONFDIR="%(path)s"
 NAME="%(name)s"
-PORT=%(port)s
 WORKERS=4
 APP="$NAME:app"
 USER=www-data

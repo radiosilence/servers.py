@@ -1,0 +1,61 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+server {
+
+            listen   80;
+            server_name %(name)s %(aliases)s;
+            rewrite ^/(.*) https://%(primary)s/$request_uri? permanent;
+}
+
+server {
+    listen   443;
+
+    ssl    on;
+    ssl_certificate    /etc/nginx/certs/%(name)s/server.crt;
+    ssl_certificate_key    /etc/nginx/certs/%(name)s/server.key;
+
+    server_name %(name)s %(aliases)s;
+    root        %(path)s/%(name)s/_wwwroot;
+    access_log  %(path)s/%(name)s/access.log;
+    
+    location /nginx_status {
+        stub_status on;
+        access_log   off;
+        allow 127.0.0.1;
+        #deny all;
+    }
+    
+    location ~* \.ico$ {
+        access_log      off;
+        error_log      off;
+        expires         30d;
+    }
+
+    location / {
+        try_files       $request_uri @rewrite;
+    }
+
+    location @rewrite {
+         rewrite ^/(.*) /index.php?route=$1?;
+    }
+
+    location ~ \.php$ {
+        default_type    text/html;
+        error_page      404 = @nocache;
+
+        if ($request_method != GET) { return 404; }
+
+        set $memcached_key site:trouble:uri:$request_uri;
+        memcached_pass  127.0.0.1:11211;
+    }
+
+    location @nocache {
+        include php5;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}
