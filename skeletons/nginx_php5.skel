@@ -3,6 +3,7 @@
         server_name %(name)s %(aliases)s;
         root        /var/www/vhosts/%(name)s/_wwwroot;
         access_log  /var/www/vhosts/%(name)s/access.log;
+        default_type    text/html;
 
         location /nginx_status {
             stub_status on;
@@ -20,8 +21,13 @@
             access_log      off;
             error_log      off;
             expires         30d;
+            access_log off;
         }
-
+        location ~* ^.+\.(css|js|woff|ttf|jpg|png)$ {
+            access_log off;
+            expires max;
+        }
+        
         location / {
             try_files       $request_uri @rewrite;
         }
@@ -37,7 +43,7 @@
             if ($request_method != GET) { return 404; }
 
             set $memcached_key site:%(name)s:uri:$request_uri;
-            memcached_pass  127.0.0.1:11211;
+            memcached_pass  memcached;
         }
 
         location @nocache {
