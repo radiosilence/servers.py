@@ -27,9 +27,7 @@ server {
     }
 
     location ~ \.php$ {
-        if (!-f $request_filename) {
-            return      404;
-        }
+        try_files       $uri  =404;
         include php5;
     }
 

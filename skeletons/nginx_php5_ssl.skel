@@ -51,6 +51,7 @@ server {
     }
 
     location @nocache {
+        try_files       $uri  =404;
         include php5;
     }
 
