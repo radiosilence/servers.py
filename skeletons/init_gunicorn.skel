@@ -11,12 +11,13 @@
 
 CONFDIR="%(path)s"
 NAME="%(name)s"
-WORKERS=4
+WORKERS=8
 APP="$NAME:app"
 USER=www-data
 GUNICORN_RUN="gunicorn"
 PID="/tmp/gunicorn_"$NAME".pid"
-WORKER="egg:gunicorn#gevent"
+WORKER="egg:meinheld#gunicorn_worker"
+#WORKER="egg:gunicorn#gevent"
 RETVAL=0
 
 # source function library
