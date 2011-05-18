@@ -1,0 +1,8 @@
+[program:%(name)s]
+command=/usr/local/bin/gunicorn %(app)s -c /etc/gunicorn.conf.py -b unix:/tmp/gunicorn_%(name)s.sock
+directory=/var/www/apps/%(name)s/src
+user=www-data
+autostart=true
+autorestart=true
+redirect_stderr=True
+
