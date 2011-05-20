@@ -8,8 +8,8 @@ import pprint
 servers = []
 skels = {}
 
-for skel in ['nginx_php5', 'nginx_flat', 'nginx_php5_test', 'nginx_wsgi', 'nginx_php5_ssl', 'supervisor_gunicorn']:
-    skels[skel] = open('skeletons/%s.skel' % skel, 'r').readlines()
+for skel in os.listdir('skeletons'):
+    skels['.'.join(skel.split('.')[:-1])] = open('skeletons/%s' % skel, 'r').readlines()
 
 def main():
     config = ConfigParser.SafeConfigParser()
@@ -33,18 +33,9 @@ def main():
         paths[k] = os.path.abspath(v)
 
     for server in servers:
-        if server['type'] in ['wsgi']:
-            server['path'] = paths['apps_dir']
-            with open(paths['supervisor_conf_dir'] % server['name'] + '.conf', 'w') as f:
-                f.write("".join(skels['supervisor_gunicorn']) % server)
-                print "Written supervisor config for %s." % server['name']
-            f.closed
-
-        else:
-            server['path'] = paths['vhosts_dir']
-
+        server['path'] = paths['vhosts_dir']
         t = server['type']
-        nginx_name = '%s_%s' % (t, server['name'])
+        nginx_name = '%s' % server['name']
         with open(paths['sites_dir'] % nginx_name, 'w') as f:
             f.write("".join(skels['nginx_%s' % t]) % server)
             print "Written nginx conf for %s." % nginx_name
