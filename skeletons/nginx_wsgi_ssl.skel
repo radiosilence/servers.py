@@ -9,7 +9,7 @@ upstream app_server_%(name)s {
 server {
     listen   80;
     server_name %(name)s %(aliases)s;
-    rewrite ^/(.*) https://%(primary)s$1 permanent;
+    rewrite ^/(.*) https://%(primary)s$request_uri?;
 }
 
 server {
