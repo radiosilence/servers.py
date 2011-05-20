@@ -1,0 +1,38 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+upstream app_server_%(name)s {
+        server unix:/tmp/gunicorn_%(name)s.sock fail_timeout=0;
+}
+
+server {
+    listen   80;
+    server_name %(name)s %(aliases)s;
+    rewrite ^/(.*) https://%(primary)s$1 permanent;
+}
+
+server {
+    listen 443;
+
+    ssl on;
+    ssl_certificate /etc/nginx/certs/%(name)s.crt;
+    ssl_certificate_key /etc/nginx/certs/%(name)s.key;
+
+    server_name %(name)s %(aliases)s;
+    client_max_body_size 4G;
+    keepalive_timeout 5;
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_redirect off;
+        proxy_buffering off;
+        
+        if (!-f $request_filename) {
+            proxy_pass http://app_server_%(name)s;
+            break;
+        }
+    }
+}
