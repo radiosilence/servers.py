@@ -1,9 +1,18 @@
 # THIS FILE IS GENERATED AUTOMATICALLY
 # BY /var/www/scripts/servers.py
 # AND WILL BE OVERWRITTEN!!!
-
 server {
-    listen 80;
+    listen   80;
+    server_name %(name)s %(aliases)s;
+    rewrite ^/(.*) https://%(primary)s$request_uri?;
+}
+server {
+    listen 443;
+    
+    ssl on;
+    ssl_certificate /etc/nginx/certs/%(name)s.crt;
+    ssl_certificate_key /etc/nginx/certs/%(name)s.key;
+
     server_name %(name)s %(aliases)s;
     root        %(path)s/%(name)s/_wwwroot;
     access_log  %(path)s/%(name)s/access.log;
