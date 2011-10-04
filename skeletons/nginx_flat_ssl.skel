@@ -12,6 +12,7 @@ server {
     ssl on;
     ssl_certificate /etc/nginx/certs/%(name)s.crt;
     ssl_certificate_key /etc/nginx/certs/%(name)s.key;
+    ssl_session_cache  builtin:1000  shared:SSL:10m;
 
     server_name %(name)s %(aliases)s;
     root        %(path)s/%(name)s/_wwwroot;

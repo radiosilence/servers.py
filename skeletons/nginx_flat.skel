@@ -7,6 +7,7 @@ server {
     server_name %(name)s %(aliases)s;
     root        %(path)s/%(name)s/_wwwroot;
     access_log  %(path)s/%(name)s/access.log;
+    autoindex   on;
 
     location ~* \.(jpg|jpeg|gif|css|png|js|ico)$ {
         access_log      off;
@@ -14,6 +15,10 @@ server {
     }
 
     location / {
-        try_files $uri /index.html;
+        try_files $uri /index.html @none;
+    }
+
+    location @none {
+        autoindex on;
     }
 }
