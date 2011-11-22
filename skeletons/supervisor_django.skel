@@ -1,0 +1,8 @@
+[program:%(name)s]
+command=/srv/default/bin/gunicorn %(name)a:app -c /srv/%(name)s/gunicorn.conf.py -b unix:/srv/%(name)s/gunicorn.sock
+directory=/srv/default/default/
+environment=DJANGO_SETTINGS_MODULE="myproject.settings"
+user=wsgi
+autostart=true
+autorestart=true
+redirect_stderr=true
