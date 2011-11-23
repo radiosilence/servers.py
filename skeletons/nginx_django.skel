@@ -13,8 +13,12 @@ server {
     keepalive_timeout 5;
 
     location / {
-        root /srv/%(name)s/%(appname)s/media;
         try_files $uri @%(name)s;
+    }
+
+    location /media {
+        alias /srv/%(name)s/%(name)s/media/;
+        expires 1h;
     }
 
     location @%(name)s {
