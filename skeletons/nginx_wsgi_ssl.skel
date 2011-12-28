@@ -24,7 +24,7 @@ server {
     keepalive_timeout 5;
 
     location / {
-        root /srv/%(name)s/%(appname)s/static;
+        root %(path)s/%(name)s/%(appname)s/static;
         try_files $uri @%(name)s;
     }
 
