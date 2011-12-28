@@ -35,8 +35,6 @@ def main():
     for server in servers:
         server['path'] = paths['vhosts_dir']
         t = server['type']
-        server['primary'] = server['aliases'].split(" ")[0]
-        server['appname'] = server['app'].split(':')[0]
         nginx_name = '%s' % server['name']
         with open(paths['sites_dir'] % nginx_name, 'w') as f:
             f.write("".join(skels['nginx_%s' % t]) % server)
