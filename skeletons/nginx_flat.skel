@@ -5,7 +5,7 @@
 server {
     listen 80;
     server_name %(name)s %(aliases)s;
-    root        %(path)s/%(name)s/_wwwroot;
+    root        %(path)s/%(name)s/%(name)s/_wwwroot;
     access_log  %(path)s/%(name)s/access.log;
     autoindex   on;
 
