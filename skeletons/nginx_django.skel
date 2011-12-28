@@ -1,0 +1,32 @@
+# THIS FILE IS GENERATED AUTOMATICALLY
+# BY /var/www/scripts/servers.py
+# AND WILL BE OVERWRITTEN!!!
+
+upstream app_server_%(name)s {
+        server unix:/srv/%(name)s/gunicorn.sock fail_timeout=0;
+}
+
+server {
+    listen 80;
+    server_name %(name)s %(aliases)s;
+    client_max_body_size 4G;
+    keepalive_timeout 5;
+
+    location / {
+        try_files $uri @%(name)s;
+    }
+
+    location /media {
+        alias /srv/%(name)s/%(name)s/media/;
+        expires 1h;
+    }
+
+    location @%(name)s {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header  X-Real-IP  $remote_addr;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_pass http://app_server_%(name)s;
+    }
+}
