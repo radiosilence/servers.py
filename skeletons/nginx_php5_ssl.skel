@@ -17,7 +17,7 @@ server {
     ssl_certificate_key    /etc/nginx/certs/%(name)s/server.key;
 
     server_name %(name)s %(aliases)s;
-    root        %(path)s/%(name)s/_wwwroot;
+    root        %(path)s/%(name)s/%(name)s/_wwwroot;
     access_log  %(path)s/%(name)s/access.log;
     
     location /nginx_status {
