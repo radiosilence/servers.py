@@ -3,7 +3,7 @@
 # AND WILL BE OVERWRITTEN!!!
 
 upstream app_server_%(name)s {
-        server unix:/srv/%(name)s/gunicorn.sock fail_timeout=0;
+        server unix:%(path)s/%(name)s/gunicorn.sock fail_timeout=0;
 }
 
 server {
@@ -17,7 +17,7 @@ server {
     }
 
     location /media {
-        alias /srv/%(name)s/%(name)s/media/;
+        alias %(path)s/%(name)s/%(name)s/media/;
         expires 1h;
     }
 

@@ -1,20 +1,13 @@
 [DEFAULT]
 sites_dir=/etc/nginx/sites-available/%s.conf
-init_dir=/etc/init.d/%s
+supervisor_conf_dir=/etc/supervisord.d/%s
 
-wsgi_server=launch_with_bjoern.py
-
-vhosts_dir=/var/www/vhosts
-apps_dir=/var/www/apps
-
-apps_path=/var/www/apps
-vhosts_path=/var/www/vhosts
+vhosts_dir=/srv
 
 [mysite]
-type=php
+type=php5
 aliases=www.mysite.com mysite.com
 
-[myflasksite]
-type=flask
+[djangosite]
+type=django
 aliases=www.myflasksite.com
-port=500
