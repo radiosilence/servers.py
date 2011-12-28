@@ -37,6 +37,15 @@
         }
 
         location ~ \.php$ {
+            default_type    text/html;
+            error_page      404 = @nocache;
+            if ($request_method != GET) { return 404; }
+
+            set $memcached_key site:%(name)s:uri:$request_uri;
+            memcached_pass  memcached;
+        }
+
+        location @nocache {
             try_files       $uri  =404;
             include php5;
         }
