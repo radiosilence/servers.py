@@ -15,10 +15,6 @@ server {
     }
 
     location / {
-        try_files $uri /index.html @none;
-    }
-
-    location @none {
-        autoindex on;
+        try_files $uri /index.html =404;
     }
 }
