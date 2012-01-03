@@ -28,6 +28,10 @@
             expires max;
         }
         
+        location = / {
+            try_files   /index.html @rewrite;
+        }
+
         location / {
             try_files       $request_uri @rewrite;
         }
