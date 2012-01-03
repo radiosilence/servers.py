@@ -33,7 +33,7 @@
         }
 
         location / {
-            try_files       $request_uri @rewrite;
+            try_files   $request_uri /maintenance.html @rewrite;
         }
 
         location @rewrite {
