@@ -32,8 +32,12 @@ server {
         expires         30d;
     }
 
+    location = / {
+        try_files   /index.html @rewrite;
+    }
+
     location / {
-        try_files       $request_uri @rewrite;
+        try_files   $request_uri /maintenance.html @rewrite;
     }
 
     location @rewrite {
