@@ -1,7 +1,7 @@
 server {
     listen 80;
     server_name %(name)s %(aliases)s;
-    client_body_max_size 4G;
+    client_max_body_size 4G;
     keepalive_timeout 5;
     
     location / {
@@ -10,7 +10,7 @@ server {
     }
 
     location /media {
-        alias %(path)s/%(name)s/%(name)s/media/;
+        alias %(path)s/%(name)s/%(appname)s/media/;
         expires 1h;
     }
 
