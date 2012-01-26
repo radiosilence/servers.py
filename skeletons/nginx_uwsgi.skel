@@ -1,0 +1,16 @@
+server {
+    listen 80;
+    server_name %(name)s %(aliases)s;
+    client_body_max_size 4G;
+    keepalive_timeout 5;
+    
+    location / {
+        root /srv/%(name)s/%(appname)s/%(appname)s/static;
+        try_files $uri @%(name)s;
+    }
+
+    location @%(name)s {
+        include uwsgi_params;
+        uwsgi_pass unix:/srv/%(name)s/uwsgi.sock;
+    }
+}
