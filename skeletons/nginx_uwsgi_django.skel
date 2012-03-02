@@ -3,7 +3,7 @@ server {
     server_name %(name)s %(aliases)s;
     client_max_body_size 4G;
     keepalive_timeout 5;
-
+    
     location / {
         root /srv/%(name)s/%(appname)s/%(appname)s/static;
         try_files $uri @%(name)s;
@@ -11,11 +11,6 @@ server {
 
     location /media {
         alias %(path)s/%(name)s/%(appname)s/media/;
-        expires 1h;
-    }
-
-    location /static     {
-        alias %(path)s/%(name)s/%(appname)s/static/;
         expires 1h;
     }
 
