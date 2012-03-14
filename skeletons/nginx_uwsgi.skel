@@ -3,9 +3,22 @@ server {
     server_name %(name)s %(aliases)s;
     client_max_body_size 4G;
     keepalive_timeout 5;
-    
+
+    gzip             on;
+    gzip_min_length  500;
+    gzip_proxied     expired no-cache no-store private auth;
+    gzip_types       text/plain application/xml application/x-javascript text/css;
+    gzip_disable     "MSIE [1-6]\.";
+
+    root /srv/%(name)s/%(appname)s/%(appname)s/static;
+
+    location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+        expires 30d;
+        add_header Pragma public;
+        add_header Cache-Control "public";
+    }
+
     location / {
-        root /srv/%(name)s/%(appname)s/%(appname)s/static;
         try_files $uri @%(name)s;
     }
 
