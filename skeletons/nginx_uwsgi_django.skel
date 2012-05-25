@@ -3,6 +3,11 @@ server {
     server_name %(name)s %(aliases)s;
     client_max_body_size 4G;
     keepalive_timeout 5;
+
+    gzip on;
+    gzip_min_length 1000;
+    gzip_disable "MSIE [1-6]\."
+    gzip_types       text/plain application/xml text/javascript text/css application/x-javascript;     
     
     location / {
         try_files $uri @%(name)s;
@@ -10,11 +15,11 @@ server {
 
     location /media {
         alias %(path)s/%(name)s/%(appname)s/media/;
-        expires 1h;
+        expires 4096h;
     }
     location /static {
         alias %(path)s/%(name)s/%(appname)s/static/;
-        expires 1h;
+        expires 4096h;
     }
 
     location @%(name)s {
