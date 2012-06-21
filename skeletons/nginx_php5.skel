@@ -5,18 +5,6 @@
         access_log  %(path)s/%(name)s/access.log;
         default_type    text/html;
 
-        location /nginx_status {
-            stub_status on;
-            access_log   off;
-            allow 127.0.0.1;
-            #deny all;
-        }
-
-        location /xhprof/xhprof_html {
-            try_files $request_uri /xhprof/xhprof_html/index.php$is_args$args;
-        }
-
-
         location ~* \.ico$ {
             access_log      off;
             error_log      off;
@@ -28,12 +16,8 @@
             expires max;
         }
         
-        location = / {
-            try_files   /index.html @rewrite;
-        }
-
         location / {
-            try_files   $request_uri /maintenance.html @rewrite;
+            index index.html index.php;
         }
 
         location @rewrite {
