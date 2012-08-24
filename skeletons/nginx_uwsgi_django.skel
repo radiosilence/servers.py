@@ -24,6 +24,6 @@ server {
 
     location @%(name)s {
         include uwsgi_params;
-        uwsgi_pass unix:/srv/%(name)s/uwsgi.sock;
+        uwsgi_pass unix:/srv/%(name)s/wsgi.sock;
     }
 }
