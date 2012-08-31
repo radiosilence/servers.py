@@ -11,6 +11,7 @@
         # This order might seem weird - this is attempted to match last if rules below fail.
         # http://wiki.nginx.org/HttpCoreModule
         location / {
+            index index.php;
             try_files $uri $uri/ /index.php?$args;
         }
 
