@@ -6,8 +6,7 @@ server {
 
     gzip on;
     gzip_min_length 1000;
-    gzip_disable "MSIE [1-6]\."
-    gzip_types       text/plain application/xml text/javascript text/css application/x-javascript;     
+    gzip_types text/css text/html text/javascript application/x-json;    
     
     location / {
         try_files $uri @%(name)s;
@@ -15,11 +14,11 @@ server {
 
     location /media {
         alias %(path)s/%(name)s/%(appname)s/media/;
-        expires 4096h;
+        expires max;
     }
     location /static {
         alias %(path)s/%(name)s/%(appname)s/static/;
-        expires 4096h;
+        expires max;
     }
 
     location @%(name)s {
