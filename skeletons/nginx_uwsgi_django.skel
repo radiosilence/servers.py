@@ -7,7 +7,7 @@ server {
     gzip on;
     gzip_static on;
     gzip_min_length 1000;
-    gzip_types text/css text/html text/javascript application/x-json;    
+    gzip_types text/css text/plain text/javascript application/x-json;    
     
     location / {
         try_files $uri @%(name)s;
