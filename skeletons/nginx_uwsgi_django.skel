@@ -5,6 +5,7 @@ server {
     keepalive_timeout 5;
 
     gzip on;
+    gzip_static on;
     gzip_min_length 1000;
     gzip_types text/css text/html text/javascript application/x-json;    
     
