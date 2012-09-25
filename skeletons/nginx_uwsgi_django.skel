@@ -3,6 +3,7 @@ server {
     server_name %(name)s %(aliases)s;
     client_max_body_size 4G;
     keepalive_timeout 5;
+    charset utf-8;
 
     gzip on;
     gzip_static on;
