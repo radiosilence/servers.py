@@ -8,7 +8,8 @@ server {
     gzip_min_length 1000;
     gzip_disable "MSIE [1-6]\."
     gzip_types       text/plain application/xml text/javascript text/css application/x-javascript;     
-    
+    gzip_vary on;
+   
     location / {
         try_files $uri @%(name)s;
     }
