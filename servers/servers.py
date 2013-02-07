@@ -45,7 +45,13 @@ def generate_config(name, site, instance, config, config_type):
 def process_site(name, site, types):
     for instance in site['instances']:
         for config in site['configs']:
-            generate_config(name, site, instance, config, types[config['type']])
+            generate_config(
+                name,
+                site,
+                instance,
+                config,
+                types[config['type']]
+            )
 
 def generate(path):
     config_path = os.path.abspath(path)
