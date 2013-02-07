@@ -2,6 +2,7 @@
 import os
 from yaml import load, dump
 from jinja2 import Environment, PackageLoader
+from unipath import Path
 env = Environment(loader=PackageLoader('servers', 'skeletons'))
 
 
@@ -39,25 +40,41 @@ def generate_config(name, site, instance, config, config_type):
         instance=instance,
         config=config
     )
-    print "=============================="
-    print name, instance['name'], config['type']
-    print '=============================='
-    print rendered
+    return rendered
 
+
+def write_config(name, instance_name, config, config_type):
+    path = Path(config_type.format(
+        name=name,
+        instance=instance_name,
+    ))
+    try:
+        os.makedirs(path.ancestor(1))
+    except OSError as (id, e):
+        if id != 17:
+            raise
+    with open(path, 'w') as f:
+        f.write(config)
+        print('Written {path}'.format(path=path))
 
 def process_site(name, site, types):
     for instance in site['instances']:
         for config in site['configs']:
-            generate_config(
+            config_type = types[config['type']]
+            config = generate_config(
                 name,
                 site,
                 instance,
                 config,
-                types[config['type']]
+                config_type
+            )
+            write_config(
+                name, instance['name'], config, config_type
             )
 
+
 def generate(path):
-    config_path = os.path.abspath(path)
+    config_path = Path(path)
     with open(config_path, 'r') as config_file:
         config = load(config_file.read())
     
