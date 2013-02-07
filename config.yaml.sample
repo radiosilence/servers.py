@@ -1,0 +1,34 @@
+sites:
+  mysite:
+    instances:
+    - name: live
+      domains:
+      - mysite.org.uk
+      - www.mysite.org.uk
+    configs:
+    - type: nginx
+      application: django
+      parent: ssl
+      ip: 10.8.0.1
+      default: true
+    - type: uwsgi
+      application: django
+      parent: threaded
+      threads: 5
+      processes: 4
+      env:
+        DJANGO_SETTINGS_MODULE: mysite.settings.production
+        DJANGO_DB_PASSWORD: "beep"
+  mystaticsite:
+    instances:
+    - name: live
+      domains:
+      - mystaticsite.me
+      - www.mystaticsite.me
+    configs:
+    - type: nginx
+      application: static
+      autoindex: true
+types:
+  nginx: /tmp/etc/nginx/servers/{name}/{instance}.conf
+  uwsgi: /tmp/srv/{name}/{instance}/uwsgi.ini
