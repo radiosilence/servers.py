@@ -22,7 +22,7 @@ def generate_config(name, site, instance, config, config_type):
         )
     def parent(config):
         if not 'parent' in config:
-            return None
+            return 'base'
         else:
             return path(
                 name=config['parent'],
