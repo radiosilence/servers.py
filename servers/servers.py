@@ -22,12 +22,12 @@ def generate_config(name, site, instance, config, config_type):
         )
     def parent(config):
         if not 'parent' in config:
-            return 'base'
-        else:
-            return path(
-                name=config['parent'],
-                type=config['type']
-            )
+            config['parent'] = 'base'
+    
+        return path(
+            name=config['parent'],
+            type=config['type']
+        )
 
     template = env.get_template(
         path(**config)
@@ -39,6 +39,9 @@ def generate_config(name, site, instance, config, config_type):
         instance=instance,
         config=config
     )
+    print "=============================="
+    print name, instance['name'], config['type']
+    print '=============================='
     print rendered
 
 
