@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 import os
-from yaml import load, dump
+from yaml import load
 from jinja2 import Environment, PackageLoader
 from unipath import Path
 env = Environment(loader=PackageLoader('servers', 'skeletons'))
@@ -8,6 +8,7 @@ env = Environment(loader=PackageLoader('servers', 'skeletons'))
 
 def generate_config(name, site, instance, config, config_type):
     ext = config_type.split('.')[-1]
+
     def path(type, name=None, application=None, **kwargs):
         template_path = [config['type']]
         if application:
@@ -21,10 +22,11 @@ def generate_config(name, site, instance, config, config_type):
             path=u'/'.join(template_path),
             ext=ext
         )
+
     def parent(config):
         if not 'parent' in config:
             config['parent'] = 'base'
-    
+
         return path(
             name=config['parent'],
             type=config['type']
@@ -33,6 +35,7 @@ def generate_config(name, site, instance, config, config_type):
     template = env.get_template(
         path(**config)
     )
+    print config
     rendered = template.render(
         name=name,
         site=site,
@@ -57,6 +60,7 @@ def write_config(name, instance_name, config, config_type):
         f.write(config)
         print('Written {path}'.format(path=path))
 
+
 def process_site(name, site, types):
     for instance in site['instances']:
         for config in site['configs']:
@@ -77,8 +81,6 @@ def generate(path):
     config_path = Path(path)
     with open(config_path, 'r') as config_file:
         config = load(config_file.read())
-    
+
     for name, site in config['sites'].items():
         process_site(name, site, config['types'])
-
-    # template = env.get_template('.html')
