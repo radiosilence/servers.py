@@ -35,7 +35,6 @@ def generate_config(name, site, instance, config, config_type):
     template = env.get_template(
         path(**config)
     )
-    print config
     rendered = template.render(
         name=name,
         site=site,
