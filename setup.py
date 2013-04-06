@@ -15,7 +15,7 @@ for dep in open('requirements.txt').read().split("\n"):
 
 setup(
     name="servers.py",
-    version="0.1.2",
+    version="0.1.3",
     description="Config generation library.",
     author=u"James Cleveland",
     author_email="james@dapperdogstudios.com",
