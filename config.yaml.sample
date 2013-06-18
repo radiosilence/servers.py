@@ -32,3 +32,6 @@ sites:
 types:
   nginx: /tmp/etc/nginx/servers/{name}/{instance}.conf
   uwsgi: /tmp/srv/{name}/{instance}/uwsgi.ini
+settings:
+  virtualenv: /env/{name}/{instance}
+  uwsgi_socket: /srv/{name}/{instance}/uwsgi.sock
