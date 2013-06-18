@@ -60,10 +60,16 @@ def write_config(name, instance_name, config, config_type):
         print('Written {path}'.format(path=path))
 
 
-def process_site(name, site, types):
+def process_site(name, site, types, settings):
     for instance in site['instances']:
         for config in site['configs']:
             config_type = types[config['type']]
+            for setting, value in settings.items():
+                config[setting] = config.get(setting, value).format(
+                    name=name,
+                    instance=instance['name']
+                )
+
             config = generate_config(
                 name,
                 site,
@@ -82,4 +88,4 @@ def generate(path):
         config = load(config_file.read())
 
     for name, site in config['sites'].items():
-        process_site(name, site, config['types'])
+        process_site(name, site, config['types'], config['settings'])
