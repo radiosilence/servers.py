@@ -34,4 +34,4 @@ types:
   uwsgi: /tmp/srv/{name}/{instance}/uwsgi.ini
 settings:
   virtualenv: /env/{name}/{instance}
-  uwsgi_socket: unix:/srv/{name}/{instance}/uwsgi.sock
+  uwsgi_socket: unix:/srv/{name}/{instance}/wsgi.sock
