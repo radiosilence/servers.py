@@ -3,3 +3,8 @@ config.yaml
 *.un~
 *.sublime-*
 *.pyc
+.idea
+dist
+etc
+srv
+*.egg-info
